@@ -32,11 +32,11 @@ app.get("/vanasonad", (req, res)=>{
 	
 });
 
-app.get("/regvisit", (req, res)=>{
-	res.render("regvisit");
+app.get("/reqvisit", (req, res)=>{
+	res.render("reqvisit");
 });
 
-app.post("/regvisit", (req, res)=>{
+app.post("/reqvisit", (req, res)=>{
 	console.log(req.body);
 	//avan tekstifaili kirjutamiseks sellisel moel, et kui teda pole, luuakse (parameeter "a")
 	fs.open("public/txt/visitlog.txt", "a", (err, file)=>{
@@ -51,7 +51,7 @@ app.post("/regvisit", (req, res)=>{
 				}
 				else {
 					console.log("Salvestatud!");
-					res.render("regvisit");
+					res.render("reqvisit");
 				}
 			});
 		}
