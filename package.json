@@ -1,0 +1,32 @@
+{
+  "name": "id_veeb",
+  "version": "1.0.0",
+  "description": "veebiprogrammeerimise tundides tehtud express.js projekt",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://carlcsepp@github.com/carlcsepp/ID_veeb.git"
+  },
+  "keywords": [
+    "õppetöö",
+    "veebiprogrammeerimine",
+    "node.js",
+    "express.js",
+    "tallinna",
+    "ülikool",
+    "digitehnoloogia",
+    "instituut"
+  ],
+  "author": "Carl-Christan Sepp",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/carlcsepp/ID_veeb/issues"
+  },
+  "homepage": "https://github.com/carlcsepp/ID_veeb#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
