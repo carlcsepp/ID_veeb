@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/carlcsepp/ID_veeb#readme",
   "dependencies": {
+    "ejs": "^3.1.10",
     "express": "^5.1.0"
   }
 }
