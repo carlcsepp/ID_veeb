@@ -1,6 +1,12 @@
 const express = require("express");
 const fs = require("fs");
-const bodyparser = require("body-parser")
+//päringu lahtiharutaja POST jaoks
+const bodyparser = require("body-parser");
+//SQL andmebaasi moodul
+//const mysql = require("mysql2");
+//kuna kasutame async, impordime mysql2/promise mooduli
+const mysql = require("mysql2/promise");
+//const dbInfo = require("../../../../vp2025config");
 const dateEt = require("./src/dateTimeET");
 // Loome objekti, mis ongi express.js programm ja edasi kasutamegi seda
 const app = express();
@@ -10,6 +16,13 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 // Päringu URL-i parsimine, eraldame POST osa. False, kui ainult tekst, True kui muud infot ka
 app.use(bodyparser.urlencoded({extended:false}));
+
+/* const dbConf = {
+	host: dbInfo.configData.host,
+	user: dbInfo.configData.user,
+	password: dbInfo.configData.passWord,
+	database: dbInfo.configData.dataBase
+}; */
 
 app.get("/", (req, res)=>{
 	//res.send("Express.js läks edukalt käma!");
@@ -32,11 +45,11 @@ app.get("/vanasonad", (req, res)=>{
 	
 });
 
-app.get("/reqvisit", (req, res)=>{
-	res.render("reqvisit");
+app.get("/regvisit", (req, res)=>{
+	res.render("regvisit");
 });
 
-app.post("/reqvisit", (req, res)=>{
+app.post("/regvisit", (req, res)=>{
 	console.log(req.body);
 	//avan tekstifaili kirjutamiseks sellisel moel, et kui teda pole, luuakse (parameeter "a")
 	fs.open("public/txt/visitlog.txt", "a", (err, file)=>{
@@ -51,7 +64,7 @@ app.post("/reqvisit", (req, res)=>{
 				}
 				else {
 					console.log("Salvestatud!");
-					res.render("reqvisit");
+					res.render("regvisit");
 				}
 			});
 		}
@@ -62,8 +75,8 @@ app.get("/visitlog", (req, res)=>{
 	let listData = [];
 	fs.readFile("public/txt/visitlog.txt", "utf8", (err, data)=>{
 		if(err){
-			//kui tuleb viga, siis ikka vÃ¤ljastame veebilehe, liuhtsalt vanasÃµnu pole Ã¼htegi
-			res.render("genericlist", {heading: "Registreeritud kÃ¼lastused", listData: ["Ei leidnud Ã¼htegi kÃ¼lastust!"]});
+			// Kui tuleb viga, siis ikka väljastame veebilehe, lihtsalt vanasÃµnu pole ühtegi
+			res.render("genericlist", {heading: "Registreeritud külastused", listData: ["Ei leidnud ühtegi külastust!"]});
 		}
 		else {
 			let tempListData = data.split(";");
@@ -92,7 +105,7 @@ app.get("/eestifilm/inimesed", (req, res)=>{
 		}
 		
 	});
-	//res.render("filmiinimesed");
+
 });
 
 app.get("/eestifilm/inimesed_add", (req, res)=>{
@@ -101,7 +114,7 @@ app.get("/eestifilm/inimesed_add", (req, res)=>{
 
 app.post("/eestifilm/inimesed_add", (req, res)=>{
 	console.log(req.body);
-	//kas andmed on olemas?
+	// Kas andmed on olemas?
 	if(!req.body.firstNameInput || !req.body.lastNameInput || !req.body.bornInput || req.body.bornInput > new Date()){
 		res.render("filmiinimesed_add", {notice: "Andmed on vigased! Vaata Ã¼le!"});
 	}
@@ -120,7 +133,11 @@ app.post("/eestifilm/inimesed_add", (req, res)=>{
 			}
 		});
 	}
-	//res.render("filmiinimesed_add", {notice: "Andmed olemas! " + req.body});
+
 });
+
+// Eesti filmi marsruudid
+const eestifilmRouter = require("./routes/eestifilmRoutes");
+app.use("/eestifilm", eestifilmRouter);
 
 app.listen(5225);
