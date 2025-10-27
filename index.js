@@ -17,12 +17,25 @@ app.use(express.static("public"));
 // Päringu URL-i parsimine, eraldame POST osa. False, kui ainult tekst, True kui muud infot ka
 app.use(bodyparser.urlencoded({extended:false}));
 
-/* const dbConf = {
-	host: dbInfo.configData.host,
-	user: dbInfo.configData.user,
-	password: dbInfo.configData.passWord,
-	database: dbInfo.configData.dataBase
+/*
+const dbConfig = {
+	host: "localhost",
+	user: "if25",
+	passWord: "DTI2025",
+	dataBase: "if25_carlsepp"
 }; */
+
+// Funktsioon andmebaasi ühenduse loomiseks
+const createConnection = async () => {
+    try {
+        const connection = await mysql.createConnection(dbConfig);
+        console.log("Andmebaasiga ühendatud!");
+        return connection;
+    } catch (error) {
+        console.error("Andmebaasi ühenduse viga:", error);
+        throw error;
+    }
+};
 
 app.get("/", (req, res)=>{
 	//res.send("Express.js läks edukalt käma!");
@@ -90,22 +103,6 @@ app.get("/visitlog", (req, res)=>{
 
 app.get("/eestifilm", (req, res)=>{
 	res.render("eestifilm");
-});
-
-app.get("/eestifilm/inimesed", (req, res)=>{
-	const sqlReq = "SELECT * FROM person";
-	conn.execute(sqlReq, (err, sqlRes)=>{
-		if(err){
-			console.log(err);
-			res.render("filmiinimesed", {personList: []});
-		}
-		else {
-			console.log(sqlRes);
-			res.render("filmiinimesed", {personList: sqlRes});
-		}
-		
-	});
-
 });
 
 app.get("/eestifilm/inimesed_add", (req, res)=>{
