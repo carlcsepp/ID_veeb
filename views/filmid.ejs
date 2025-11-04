@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+	<meta charset="utf-8">
+	<title>Carl-Christan Sepp, veebiprogrammeerimine '25</title>
+</head>
+<body>
+	<img src="../media/vp_banner_2025_ID.jpg" alt="course banner">
+	<h1>Veebileht,</h1>
+	<p>mis sisaldab tõsiseltvöetavat <a href="https://taflheim.io/">sisu</a>!</p>
+	<hr>
+	<ul>
+	<li><a href="/">Avaleht</a></li>
+	<li><a href="/Eestifilm">Eesti filmi avalehele</a></li>
+	</ul>
+
+	<h2>Eesti filmid</h2>
+	<p>Lisa uus film</p>
+	<form action="/Eestifilm/filmid" method="POST">
+	  <label for="titleInput">Filmi nimi</label>
+	  <input id="titleInput" name="titleInput" type="text" placeholder="Filmi nimi" required>
+	  <br>
+	  <label for="yearInput">Filmi aasta</label>
+	  <input id="yearInput" name="yearInput" type="number" placeholder="Filmi aasta" required>
+	  <br>
+	  <label for="durationInput">Filmi kestus</label>
+	  <input id="durationInput" name="durationInput" type="number" placeholder="Filmi kestus" required>
+	  <br>
+	  <input id="personSubmit" name="personSubmit" type="submit" value="Salvesta">
+	<ol>
+		<% movieList.forEach(function(listItem){ %>
+			<li><%= listItem.title %> (<%= listItem.production_year %>) <%= listItem.description %></li>
+		<% });%>
+	</ol>
+</body>
+
+</html>

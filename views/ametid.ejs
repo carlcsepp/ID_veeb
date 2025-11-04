@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+	<meta charset="utf-8">
+	<title>Carl-Christan Sepp, veebiprogrammeerimine '25</title>
+</head>
+<body>
+	<img src="../media/vp_banner_2025_ID.jpg" alt="course banner">
+	<h1> Carl-Christan Sepp, veebiprogrammeerimine </h1>
+	<p> See leht on tehtud <a href="https://www.tlu.ee">Tallinna Ülikooli</a> veebiprogrammeerimise kursusel ning ei sisalda mõistliku sisu. </p>
+	<hr>
+	<ul>
+		<li><a href="/">Avalehele</a></li>
+	<li><a href="/eestifilm">Eesti filmi avalehele</a></li>
+  </ul>
+
+  <h2>Eesti filmide erinevad ametid</h2>
+  <p>Lisa uus amet</p>
+  <form action="/eestifilm/ametid/" method="POST">
+		<label for="positionInput">Ameti nimi</label>
+		<input id="positionInput" name="positionInput" type="text" placeholder="Ameti nimetus" required>
+		<br>
+		<label for="descriptionInput">Ameti kirjeldus</label>
+		<textarea id="descriptionInput" name="descriptionInput" cols="100 rows="5" placeholder="Ameti lühikirjeldus...."></textarea>
+		<br>
+		<input id="positionSubmit" name="positionSubmit" type="submit" value="Salvesta">
+	<ol>
+		<% roleList.forEach(function(listItem){ %>
+			<li><%= listItem.position_name %> (<%= listItem.description %></li>
+		<% 	});%>
+	</ol>
+</body>
+</html>

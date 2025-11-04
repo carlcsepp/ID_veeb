@@ -1,22 +1,27 @@
 const express = require("express");
 const router = express.Router();
 
-//kontrollerid
 const {
-	filmHomePage,
-	filmPeople,
-	filmPeopleAdd,
-	filmPeopleAddPost,
-	filmPosition,
-	filmPositionAdd,
-	filmPositionAddPost} = require("../controllers/eestifilmControllers");
+	eestifilm,
+	inimesed,
+	inimesedAdd,
+	inimesedAddPost,
+	ametid,
+	ametidPost,
+	filmid,
+	filmidPost} = require("../controllers/eestifilmControllers");
 
-router.route("/").get(filmHomePage);
-router.route("/inimesed").get(filmPeople);
-router.route("/inimesed_add").get(filmPeopleAdd);
-router.route("/inimesed_add").post(filmPeopleAddPost);
-router.route("/ametid").get(filmPosition);
-router.route("/ametid_add").get(filmPositionAdd);
-router.route("/ametid_add").post(filmPositionAddPost);
-	
+router.route("/").get(eestifilm);
+
+router.route("/filmiinimesed").get(inimesed);
+
+router.route("/filmiinimesed_add").get(inimesedAdd);
+router.route("/filmiinimesed_add").post(inimesedAddPost);
+
+router.route("/filmid").get(filmid);
+router.route("/filmid").post(filmidPost);
+
+router.route("/ametid").get(ametid);
+router.route("/ametid").post(ametidPost);
+
 module.exports = router;
