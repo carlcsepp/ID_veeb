@@ -5,18 +5,29 @@
 	<title>Carl-Christan Sepp, veebiprogrammeerimine '25</title>
 </head>
 <body>
-	<img src="../media/vp_banner_2025_ID.jpg" alt="course banner">
-	<h1> Carl-Christan Sepp, veebiprogrammeerimine </h1>
-	<p> See leht on tehtud <a href="https://www.tlu.ee">Tallinna Ülikooli</a> veebiprogrammeerimise kursusel ning ei sisalda mõistliku sisu. </p>
+	<img src="/media/vp_banner_2025_ID.jpg" alt="course banner">
+	<h1>Carl-Christan Sepp, veebiprogrammeerimine</h1>
+	<p>See leht on tehtud <a href="https://www.tlu.ee">Tallinna Ülikooli</a> veebiprogrammeerimise kursusel ning ei sisalda mõistliku sisu.</p>
 	<hr>	
 	<h2>Siit leiab</h2>
 	<ul>
 		<li><a href="/timenow">Ajainfo</a></li>
-		<li><a href="/vanasonad">Vaata Eesti vanusõnu</a></li>
+		<li><a href="/vanasonad">Vaata Eesti vanasõnu</a></li>
 		<li><a href="/regvisit">Registreeri oma külastus</a></li>
 		<li><a href="/visitlog">Vaata külastusi</a></li>
 		<li><a href="/eestifilm">Eesti film</a></li>
 		<li><a href="/galleryphotoupload">Fotode üleslaadimine</a></li>
 	</ul>
+
+	<h2>Viimati lisatud pilt</h2>
+	<% if (typeof viimanePilt !== 'undefined' && viimanePilt) { %>
+		<div class="gallery-item">
+			<!-- Kuvame normaalmõõdus pildi -->
+			<img src="/gallery/normal/<%= viimanePilt.filename %>" alt="<%= viimanePilt.alttext %>">
+			<p><%= viimanePilt.alttext %></p>
+		</div>
+	<% } else { %>
+		<p>Avalikke pilte ei leitud.</p>
+	<% } %>
 </body>
-</html> 
+</html>

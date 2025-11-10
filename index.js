@@ -133,6 +133,20 @@ app.post("/eestifilm/inimesed_add", (req, res)=>{
 
 });
 
+app.get("/", (req, res) => {
+    let sqlReq = "SELECT filename, alttext FROM galleryphotos WHERE id=(SELECT MAX(id) FROM galleryphotos WHERE privacy=? AND deleted IS NULL)";
+    
+    conn.execute(sqlReq, [3], (err, result) => {
+        if (err) {
+            // Kui mingi viga, siis lihtsalt näitame lehte ilma pildita
+            res.render("index", { latestPhoto: null });
+        } else {
+            // Kui leidus vähemalt üks pilt
+            res.render("index", { latestPhoto: result[0] || null });
+        }
+    });
+});
+
 // Eesti filmi marsruudid
 const eestifilmRouter = require("./routes/eestifilmRoutes");
 app.use("/eestifilm", eestifilmRouter);
