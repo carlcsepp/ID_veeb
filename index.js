@@ -38,7 +38,7 @@ const createConnection = async () => {
 };
 
 app.get("/", (req, res)=>{
-	//res.send("Express.js läks edukalt käma!");
+	//res.send("Express.js läks edukalt käima!");
 	res.render("index");
 });
 
@@ -49,10 +49,10 @@ app.get("/timenow", (req, res)=>{
 app.get("/vanasonad", (req, res)=>{
 	fs.readFile("public/txt/vanasonad.txt", "utf8", (err, data)=>{
 		if(err){
-			res.render("genericlist", {heading: "Valik Eesti tuntud vanasأµnasid", listData: ["Kahjuks vanasأµnasid ei leidnud!"]});
+			res.render("genericlist", {heading: "Valik Eesti tuntud vanasõnasid", listData: ["Kahjuks vanasأµnasid ei leidnud!"]});
 		} else {
 			let folkWisdom = data.split(";");
-			res.render("genericlist", {heading: "Valik Eesti tuntud vanasأµnasid", listData: folkWisdom});
+			res.render("genericlist", {heading: "Valik Eesti tuntud vanasõnasid", listData: folkWisdom});
 		}
 	});
 	
@@ -64,13 +64,13 @@ app.get("/regvisit", (req, res)=>{
 
 app.post("/regvisit", (req, res)=>{
 	console.log(req.body);
-	//avan tekstifaili kirjutamiseks sellisel moel, et kui teda pole, luuakse (parameeter "a")
+	// Avan tekstifaili kirjutamiseks sellisel moel, et kui teda pole, luuakse (parameeter "a")
 	fs.open("public/txt/visitlog.txt", "a", (err, file)=>{
 		if(err){
 			throw(err);
 		}
 		else {
-			//faili senisele sisule lisamine
+			// Faili senisele sisule lisamine
 			fs.appendFile("public/txt/visitlog.txt", req.body.nameInput + ";", (err)=>{
 				if(err){
 					throw(err);
@@ -96,10 +96,31 @@ app.get("/visitlog", (req, res)=>{
 			for(let i = 0; i < tempListData.length - 1; i ++){
 				listData.push(tempListData[i]);
 			}
-			res.render("genericlist", {heading: "Registreeritud kÃ¼lastused", listData: listData});
+			res.render("genericlist", {heading: "Registreeritud külastused", listData: listData});
 		}
 	});
 });
+
+app.post("/salvestatud", (req, res)=>{
+	console.log(req.body);
+	// Avan teksifaili kirjutamiseks sellisel moel, et kui teda pole siis luuakse
+	fs.open("public/txt/visitlog.txt", "a", (err, file)=>{
+			if(err){
+				throw(err);
+			} else {
+				//faili senisene sisule lisamine
+				fs.appendFile("public/txt/visitlog.txt", req.body.firstNameInput + " " + req.body.lastNameInput + ", " + dateET.fullDate() + " kell " + dateET.fullTime() +  " \n", (err)=>{
+					if(err){
+						throw(err);
+					} else {
+						console.log("Salvestatud!");
+						res.render("salvestatud", {firstNameInput: req.body.firstNameInput, lastNameInput: req.body.lastNameInput});
+					}
+				});
+			}
+	});
+});
+
 
 app.get("/eestifilm", (req, res)=>{
 	res.render("eestifilm");
@@ -154,5 +175,8 @@ app.use("/eestifilm", eestifilmRouter);
 // Fotode üleslaadimine
 const photoupRouter = require("./routes/photoupRoutes");
 app.use("/galleryphotoupload", photoupRouter);
+
+const galleryRouter = require("./routes/galleryRoutes");
+app.use("/gallery", galleryRouter);
 
 app.listen(5225);

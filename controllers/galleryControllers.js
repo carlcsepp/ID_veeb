@@ -1,5 +1,7 @@
 const mysql = require("mysql2/promise");
 const dbInfo = require("../../../../vp2025config");
+const fs = require("fs").promises;
+const sharp = require("sharp");
 
 const dbConf = {
 	host: dbInfo.configData.host,
@@ -8,13 +10,14 @@ const dbConf = {
 	database: dbInfo.configData.dataBase
 };
 
-//@desc home page for photogallery
-//@route GET /photogallery
+//@desc home page for displaying uploaded photos
+//@route GET /galleryPage
 //@access public
 
-const galleryHome = async (req, res)=>{
+const galleryPage = async (req, res)=>{
 	let conn;
-	try {
+	const sqlReq = "SELECT filename FROM galleryphotos WHERE privacy = ? AND deleted IS null";
+	try{
 		conn = await mysql.createConnection(dbConf);
 		let sqlReq = "SELECT filename, alttext FROM galleryphotos WHERE privacy >= ? AND deleted IS NULL";
 		const privacy = 2;
@@ -26,22 +29,22 @@ const galleryHome = async (req, res)=>{
 			if(rows[i].alttext != ""){
 				altText = rows[i].alttext;
 			}
-			galleryData.push({src: "gallery/thumbs/" + rows[i].filename, alt: altText});
+			galleryData.push({href: rows[i].filename, alt: altText});
 		}
-		res.render("gallery", {galleryData: galleryData});
+		res.render("gallery", {galleryData: galleryData, imagehref: "/gallery/thumbs/"});
 	}
-	catch(err){
-		console.log(err);
-		res.render("gallery", {listData: []});
+	catch(err) {
+		throw(err);
+		res.render("gallery", {galleryData: "Ei saanud pilte laadida"});
 	}
 	finally {
-	  if(conn){
-	    await conn.end();
-	    console.log("Andmebaasiüshendus on suletud!");
-	  }
+		if(conn){
+			await conn.end();
+			console.log("DB suletud");
+		}
 	}
 };
 
 module.exports = {
-	galleryHome
-};
+	galleryPage
+}

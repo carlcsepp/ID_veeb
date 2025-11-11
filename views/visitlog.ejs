@@ -10,10 +10,15 @@
   <p>See leht on tehtud <a href="https://www.tlu.ee/dt">Tallinna Ülikooli</a> veebiprogrammeerimise kursusel ja ei sisalda mõistlikku sisu.</p>
   <hr>
     <ul>
-	<li><a href="/">Avalehele</a></li>
-    <li><a href="/regvisit">Registreeri veel üks külastus</a></li>
-  </ul>
-  <hr>
-  <p><%= visitor %> külastus edukalt salvestatud</p>
+	<li><a href="/">Avaleht</a></li>
+	</ul>
+	<hr>
+	<h2><%= heading %></h2>
+	<ul>
+		<% listData.forEach(function(listItem){ %>
+			<li><%= listItem %></li>
+		<% });%>
+	</ul>
 </body>
+
 </html>
