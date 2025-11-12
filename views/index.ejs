@@ -16,18 +16,10 @@
 		<li><a href="/regvisit">Registreeri oma külastus</a></li>
 		<li><a href="/visitlog">Vaata külastusi</a></li>
 		<li><a href="/eestifilm">Eesti film</a></li>
-		<li><a href="/galleryphotoupload">Fotode üleslaadimine</a></li>
+		<li><a href="/galleryphotoupload">Lae üles oma foto!</a></li>
+		<li><a href="/gallery">Fotogalerii</a></li>
 	</ul>
-
-	<h2>Viimati lisatud pilt</h2>
-	<% if (typeof viimanePilt !== 'undefined' && viimanePilt) { %>
-		<div class="gallery-item">
-			<!-- Kuvame normaalmõõdus pildi -->
-			<img src="/gallery/normal/<%= viimanePilt.filename %>" alt="<%= viimanePilt.alttext %>">
-			<p><%= viimanePilt.alttext %></p>
-		</div>
-	<% } else { %>
-		<p>Avalikke pilte ei leitud.</p>
-	<% } %>
+	<h2>Viimati üleslaetud pilt</h2>
+	<img src="/gallery/orig/<%= photoName %>" alt="Viimati lisatud pilt">
 </body>
 </html>

@@ -40,7 +40,7 @@ const galleryPage = async (req, res)=>{
 	finally {
 		if(conn){
 			await conn.end();
-			console.log("DB suletud");
+			console.log("Andmebaas suletud");
 		}
 	}
 };
