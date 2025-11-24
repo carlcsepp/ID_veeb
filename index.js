@@ -9,7 +9,6 @@ const bodyparser = require("body-parser");
 const mysql = require("mysql2/promise");
 //const dbInfo = require("../../../../vp2025config");
 const textRef = "./public/txt/vanasonad.txt";
-const visitRef ="./public/txt/visitlog.txt";
 // Loome objekti, mis ongi express.js programm ja edasi kasutamegi seda
 const app = express();
 // Maarame renderdajaks ejs
@@ -49,7 +48,7 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/timenow", (req, res)=>{
-	res.render("timenow", {nowDate: dateEt.longDate(), nowWd: dateEt.weekDay()});
+	res.render("timenow", {nowDate: dateEt.fullDate(), nowWd: dateEt.weekDay()});
 });
 
 app.get("/vanasonad", (req, res)=>{
@@ -82,39 +81,40 @@ app.get("/regvisit", (req, res)=>{
 
 app.post("/regvisit", (req, res)=>{
 	console.log(req.body);
-	// Avan tekstifaili kirjutamiseks sellisel moel, et kui teda pole, luuakse (parameeter "a")
+	//avan tekstifaili kirjutamiseks sellisel moel, et kui teda pole, luuakse (parameeter "a")
 	fs.open("public/txt/visitlog.txt", "a", (err, file)=>{
 		if(err){
 			throw(err);
 		}
 		else {
-			// Faili senisele sisule lisamine
-			fs.appendFile("public/txt/visitlog.txt", req.body.nameInput + ";", (err)=>{
+			//faili senisele sisule lisamine
+			fs.appendFile("public/txt/visitlog.txt", req.body.firstNameInput + " " + req.body.lastNameInput + ", " + dateEt.fullDate() + " kell " + dateEt.fullTime() + " " + dateEt.weekDay() + ";", (err)=>{
 				if(err){
 					throw(err);
 				}
 				else {
 					console.log("Salvestatud!");
-					res.render("regvisit");
+					res.render("salvestatud", {visitor: req.body.firstNameInput + " " + req.body.lastNameInput});
 				}
 			});
 		}
 	});
 });
 
-
 app.get("/visitlog", (req, res)=>{
 	let listData = [];
 	fs.readFile("public/txt/visitlog.txt", "utf8", (err, data)=>{
 		if(err){
-			res.render("visitlog", {heading: "Registreeritud külastused", listData: ["Ei leidnud ühtegi külastust!"]});
+			// Kui tuleb viga, siis ikka väljastame veebilehe, lihtsalt külastusi pole
+			res.render("genericlist", {heading: "Registreeritud külastused", listData: ["Ei leidnud ühtegi külastust!"]});
 		}
 		else {
-			let tempListData = data.split(";");
-			for(let i = 0; i < tempListData.length - 1; i ++){
-				listData.push(tempListData[i]);
+			listData = data.split(";");
+			let correctListData = [];
+			for(let i = 0; i < listData.length - 1; i ++){
+				correctListData.push(listData[i]);
 			}
-			res.render("visitlog", {heading: "Registreeritud külastused", listData: listData});
+			res.render("genericlist", {heading: "Registreeritud külastused", listData: correctListData});
 		}
 	});
 });
@@ -127,7 +127,7 @@ app.post("/salvestatud", (req, res)=>{
 				throw(err);
 			} else {
 				//faili senisene sisule lisamine
-				fs.appendFile("./public/txt/visitlog.txt", req.body.firstNameInput + " " + req.body.lastNameInput + ", " + dateEt.longDate(), (err)=>{
+				fs.appendFile("./public/txt/visitlog.txt", req.body.firstNameInput + " " + req.body.lastNameInput + ", " + dateEt.fullDate(), (err)=>{
 					if(err){
 						throw(err);
 					} else {
@@ -151,7 +151,7 @@ app.post("/eestifilm/inimesed_add", (req, res)=>{
 	console.log(req.body);
 	// Kas andmed on olemas?
 	if(!req.body.firstNameInput || !req.body.lastNameInput || !req.body.bornInput || req.body.bornInput > new Date()){
-		res.render("filmiinimesed_add", {notice: "Andmed on vigased! Vaata Ã¼le!"});
+		res.render("filmiinimesed_add", {notice: "Andmed on vigased! Vaata üle!"});
 	}
 	else {
 		let deceasedDate = null;
