@@ -9,15 +9,15 @@
   <h1>Carl-Christan Sepp, veebiprogrammeerimine</h1>
   <p>See leht on tehtud <a href="https://www.tlu.ee/dt">Tallinna Ülikooli</a> veebiprogrammeerimise kursusel ja ei sisalda mõistlikku sisu.</p>
   <hr>
-    <ul>
-	<li><a href="/">Avaleht</a></li>
-	</ul>
-	<h2><%= heading %></h2>
-	<ul>
-		<% listData.forEach(function(listItem){ %>
-			<li><%= listItem %></li>
-		<% });%>
-	</ul>
+  
+  <p><a href="/">Avalehele</a></p>
+  <p><a href="/regvisit">Lisa uus külastus</a></p>
+  
+  <h1>Kõik külastused</h1>
+  <ul>
+	<% listData.forEach(function(listItem){ %>
+		<li><%= listItem %></li>
+	<% });%>
+  </ul>
 </body>
-
 </html>

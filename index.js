@@ -52,14 +52,29 @@ app.get("/timenow", (req, res)=>{
 	res.render("timenow", {nowDate: dateEt.longDate(), nowWd: dateEt.weekDay()});
 });
 
-app.get("/visitlog", (req, res)=>{
+app.get("/vanasonad", (req, res)=>{
+	let folkWisdom = [];
+	fs.readFile(textRef, "utf8", (err, data)=>{
+			if(err){
+				//kui tuleb viga, siis ikka väljastame veebilehe ilma vanasönadeta
+				res.render("genericlist", {heading: "Valik Eesti vanasõnu", listData: ["Ei leidnud ühtegi vanasõna!"]});
+			} else {
+				folkWisdom = data.split(";");
+				res.render("genericlist", {heading: "Valik Eesti vanasõnu", listData: folkWisdom});
+			}
+	});
+});
+
+/* app.get("/visitlog", (req, res)=>{
 	let visitlog = [];
 	fs.readFile(visitRef, "utf8", (err, data)=>{
 			if(err){
 				res.render("visitlog", {heading: "Registreeritud kasutajad", listData: ["Ei leidnud ühtegi kasutajat"]});
 			}
 	});
-});
+}); */
+
+
 
 app.get("/regvisit", (req, res)=>{
 	res.render("regvisit");
@@ -87,42 +102,21 @@ app.post("/regvisit", (req, res)=>{
 	});
 });
 
-app.get("/vanasonad", (req, res)=>{
-	let folkWisdom = [];
-	fs.readFile(textRef, "utf8", (err, data)=>{
-			if(err){
-				//kui tuleb viga, siis ikka väljastame veebilehe ilma vanasönadeta
-				res.render("genericlist", {heading: "Valik Eesti vanasõnu", listData: ["Ei leidnud ühtegi vanasõna!"]});
-			} else {
-				folkWisdom = data.split(";");
-				res.render("genericlist", {heading: "Valik Eesti vanasõnu", listData: folkWisdom});
-			}
-	});
-});
 
 app.get("/visitlog", (req, res)=>{
 	let listData = [];
 	fs.readFile("public/txt/visitlog.txt", "utf8", (err, data)=>{
 		if(err){
-			res.render("genericlist", {heading: "Registreeritud külastused", listData: ["Ei leidnud ühtegi külastust!"]});
+			res.render("visitlog", {heading: "Registreeritud külastused", listData: ["Ei leidnud ühtegi külastust!"]});
 		}
 		else {
-			listData = data.split(";");
-			let correctListData = [];
-			for(let i = 0; i < listData.length - 1; i ++){
-				correctListData.push(listData[i]);
+			let tempListData = data.split(";");
+			for(let i = 0; i < tempListData.length - 1; i ++){
+				listData.push(tempListData[i]);
 			}
-			res.render("genericlist", {heading: "Registreeritud külastused", listData: correctListData});
+			res.render("visitlog", {heading: "Registreeritud külastused", listData: listData});
 		}
 	});
-});
-
-app.get("/regvisit", (req, res)=>{
-	res.render("regvisit");
-});
-
-app.post("/regvisit", (req, res)=>{
-	res.render("regvisit");
 });
 
 app.post("/salvestatud", (req, res)=>{
@@ -184,6 +178,10 @@ app.use("/eestifilm", eestifilmRouter);
 // Fotode üleslaadimine
 const photoupRouter = require("./routes/photoupRoutes");
 app.use("/galleryphotoupload", photoupRouter);
+
+// Uudiste osa eraldi marsruutide failiga
+const newsRouter = require("./routes/newsRoutes");
+app.use("/news", newsRouter);
 
 const galleryRouter = require("./routes/galleryRoutes");
 app.use("/gallery", galleryRouter);
