@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+	<meta charset="utf-8">
+	<title>Carl-Christan Sepp, veebiprogrammeerimine '25</title>
+</head>
+<body>
+	<img src="/media/vp_banner_2025_ID.jpg" alt="course banner">
+	<h1>Carl-Christan Sepp, veebiprogrammeerimine</h1>
+	<p>See leht on tehtud <a href="https://www.tlu.ee">Tallinna Ülikooli</a> veebiprogrammeerimise kursusel ning ei sisalda mõistliku sisu.</p>
+	<hr>
+  <h1>Lisa uus uudis</h1>
+
+  <form method="POST" action="/news/newsadd" enctype="multipart/form-data">
+    <label for="titleInput">Pealkiri:</label><br>
+    <input id="titleInput" name="titleInput" type="text" placeholder="Pealkiri" required><br><br>
+
+    <label for="contentInput">Sisu:</label><br>
+    <textarea id="contentInput" name="contentInput" cols="80" rows="5" placeholder="Sisu" required></textarea><br><br>
+
+    <label for="expireInput">Aegumiskuupäev:</label><br>
+    <input id="expireInput" name="expireInput" type="date" required><br><br>
+
+    <label for="photoInput">Foto lisamine:</label><br>
+    <input id="photoInput" name="photoInput" type="file" ><br><br>
+
+    <label for="altInput">Alt tekst:</label><br>
+    <input id="altInput" name="altInput" type="text" placeholder="Alt tekst"><br><br>
+
+    <input type="submit" value="Salvesta uudis!">
+  </form>
+
+  <p style="color:darkred;"><%= notice %></p>
+
+  <p><a href="/news">Tagasi uudiste juurde</a></p>
+  <p><a href="/">Avaleht</a></p>
+</body>
+</html>

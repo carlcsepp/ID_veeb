@@ -179,11 +179,19 @@ app.use("/eestifilm", eestifilmRouter);
 const photoupRouter = require("./routes/photoupRoutes");
 app.use("/galleryphotoupload", photoupRouter);
 
-// Uudiste osa eraldi marsruutide failiga
+// Uudiste marsruut
 const newsRouter = require("./routes/newsRoutes");
 app.use("/news", newsRouter);
 
 const galleryRouter = require("./routes/galleryRoutes");
 app.use("/gallery", galleryRouter);
+
+// Konto loomise marsruudid
+const signupRouter = require("./routes/signupRoutes");
+app.use("/signup", signupRouter);
+
+// Sisselogimise marsruudid
+const signinRouter = require("./routes/signinRoutes");
+app.use("/signin", signinRouter);
 
 app.listen(5225);

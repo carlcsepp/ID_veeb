@@ -8,14 +8,30 @@
 	<img src="/media/vp_banner_2025_ID.jpg" alt="course banner">
 	<h1>Carl-Christan Sepp, veebiprogrammeerimine</h1>
 	<p>See leht on tehtud <a href="https://www.tlu.ee">Tallinna Ülikooli</a> veebiprogrammeerimise kursusel ning ei sisalda mõistliku sisu.</p>
-	<hr>	
+	<hr>
 	<ul>
 	<li><a href="/">Avalehele</a></li>
-  </ul>
-  <h2>Uudised</h2>
-  <ul>
-	  <li><a href="/news/addnews">Uudise lisamine</a></li>
-		<li><a href="/news/read">Uudiste lugemine</a></li>
-  </ul>
+	</ul>
+	<h1>Uudised</h1>
+	<% if (news.length === 0) {%>
+		<p>Ühtegi kehtivat uudist pole</p>
+	<% } %>
+
+	<% news.forEach(n => { %>
+	<article>
+		<h2><%= n.title %></h2>
+		<p><%= n.content %></p>
+
+    <% if (n.photofilename) { %>
+		<img src="/news_images/<%= n.photofilename %>" alt="<%= n.alttext %>" width="300">
+    <% } %>
+
+    <small>Aegub: <%= n.expire %></small>
+    <hr>
+	</article>
+	<% }) %>
+
+<p><a href="/news/newsadd">Lisa uus uudis</a></p>
+
 </body>
 </html>
